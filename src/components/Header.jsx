@@ -1,10 +1,17 @@
 import Button from "./Button"
 
-const Header = () => {
+const Header = ({ displayAdd, onClickAddBtn}) => {
+
+  let text = displayAdd ? "Add" : "Close"
+  let color = displayAdd ? "limegreen" : "orange"
+
   return (
     <div className="header d-grid">
       <h1>Task Tracker</h1>
-      <Button/>
+      <Button
+        text={text}
+        color={color}
+        onClickAddBtn={onClickAddBtn} />
 
     </div>
   )

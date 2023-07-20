@@ -1,6 +1,9 @@
-const Button = () => {
+const Button = ({ text, color, onClickAddBtn }) => {
   return (
-    <button className="button">Button</button>
+    <button className="button"
+      style={{ backgroundColor: color }}
+      onClick={onClickAddBtn}
+    >{text}</button>
   )
 }
 

@@ -1,9 +1,19 @@
 import Task from "./Task"
 
-const Tasks = () => {
+const Tasks = ({ tasks }) => {
+  console.log(tasks);
   return (
-    <div>Tasks
-      <Task/>
+    <div>
+      <h2>Tasks</h2>
+      {tasks.map((task, index)=>(
+      <Task key={index} task={task} />
+      ))}
+
+
+      {/* {tasks.map((task, index) => (
+        <Task key={index} task={task} />
+      ))} */}
+
     </div>
   )
 }
