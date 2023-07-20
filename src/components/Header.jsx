@@ -2,7 +2,7 @@ import Button from "./Button"
 
 const Header = ({ displayAdd, onClickAddBtn}) => {
 
-  let text = displayAdd ? "Add" : "Close"
+  let text = displayAdd ? "Close" : "Add a Task"
   let color = displayAdd ? "limegreen" : "orange"
 
   return (
