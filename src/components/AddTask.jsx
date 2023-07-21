@@ -12,10 +12,8 @@ const AddTask = ({ addTask }) => {
         event.preventDefault();
         if (!text) return setNoTextWarning("Please input a task!");
 
-
-
-        addTask(text, time, reminder);
-        // text ? console.log(text) : console.log("NO");
+        let newTask = {text, time, reminder}
+        addTask(newTask);
 
         // Reset form after submit 
         setText("");

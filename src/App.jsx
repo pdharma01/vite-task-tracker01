@@ -25,39 +25,51 @@ let tempData = [{
   "id": 2
 }]
 
-
-
-
 function App() {
 
 
   const [displayAdd, setDisplayAdd] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const url = "http://localhost:5000/tasks"
 
+  // initial setTasks from fetched database, no dependancy array 
   useEffect(() => {
     const getTasks = async () => {
-      let tasksFromServer = await fetchTasks();
+      let tasksFromServer = await fetchTasks(url);
       setTasks(tasksFromServer)
     }
     getTasks()
   }, [])
 
 
-  const fetchTasks = async (url) => {
+  const fetchTasks = async (url, request) => {
+    let response = await fetch(url, request)
+    
+    if (!response.ok) {
+      console.log("response not OK!");
+      let data = []
+      return data
+    }
 
-    // fetch tasks json from Database 
-    let data = tempData;
+    let data = await response.json()
     return data
   }
 
-  const addTask = (text, time, reminder) => {
-    let id = tasks.length
-    let newTask = {text, time, reminder, id}
+  const addTask = async (newTask) => {
+    // get last task in array + 1 
+    newTask.id = tasks[tasks.length-1].id + 1
 
-    // Save new task to Database 
+    let postRequest = {
+      method: "POST",
+      headers: {
+        "Content-type" : "application/json"
+      },
+      body: JSON.stringify(newTask)
+    }
 
-
-    setTasks([...tasks, newTask])
+    let postedTask = await fetchTasks(url, postRequest)
+ 
+    setTasks([...tasks, postedTask])
   }
 
   const deleteTask=()=>{
