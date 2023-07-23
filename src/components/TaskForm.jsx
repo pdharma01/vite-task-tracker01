@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-const TaskForm = (defaultText, defaulTime, defaultReminder, submitFunction) => {
+const TaskForm = ({defaultText, defaultTime, defaultReminder, submitFunction, id}) => {
 
     
     let [text, setText] = useState(defaultText);
-    let [time, setTime] = useState(defaulTime);
+    let [time, setTime] = useState(defaultTime);
     let [reminder, setReminder] = useState(defaultReminder)
     let [noTextWarning, setNoTextWarning] = useState("")
 
@@ -13,7 +13,8 @@ const TaskForm = (defaultText, defaulTime, defaultReminder, submitFunction) => {
         event.preventDefault();
         if (!text) return setNoTextWarning("Please input a task!");
 
-        let newTask = { text, time, reminder }
+        let newTask = id ? { text, time, reminder, id } : { text, time, reminder}
+        console.log(newTask);
         submitFunction(newTask);
 
         // Reset form after submit 

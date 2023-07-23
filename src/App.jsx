@@ -4,7 +4,8 @@ import './App.css'
 // Layout Components
 import Header from "./components/Header"
 import Tasks from "./components/Tasks"
-import AddTask from './components/AddTask'
+// import AddTask from './components/AddTask'
+import TaskForm from './components/TaskForm'
 
 let tempData = [{
   "text": "Brush Teeth",
@@ -44,7 +45,7 @@ function App() {
 
   const fetchTasks = async (url, request) => {
     let response = await fetch(url, request)
-    
+
     if (!response.ok) {
       console.log("response not OK!");
       let data = []
@@ -59,35 +60,48 @@ function App() {
     let postRequest = {
       method: "POST",
       headers: {
-        "Content-type" : "application/json"
+        "Content-type": "application/json"
       },
       body: JSON.stringify(newTask)
     }
 
     let postedTask = await fetchTasks(url, postRequest)
-    console.log(postedTask);
- 
     setTasks([...tasks, postedTask])
 
   }
 
-  const editTask=(id)=> {
-    console.log("edit id:" + id);
+  const editTask = async ({text, time, reminder, id}) => {
+    let newTask = {text, time, reminder}
+    let putUrl = url + "/" + id;
+    let putRequest = {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(newTask)
+    }
+    await fetchTasks(putUrl, putRequest);
+
+    setTasks(tasks.map((task) => {
+      if (task.id === id) return newTask;
+      return task
+    }
+    ))
 
   }
 
-  const tottleReminder=(id)=> {
+  const tottleReminder = (id) => {
     console.log("toggle reminder id:" + id);
 
-  } 
+  }
 
-  const deleteTask= async (id)=>{
+  const deleteTask = async (id) => {
     let deleteUrl = url + "/" + id;
-    await fetchTasks(deleteUrl, {method: "DELETE"})
-    setTasks(tasks.filter((task)=>{
+    await fetchTasks(deleteUrl, { method: "DELETE" })
+    setTasks(tasks.filter((task) => {
       return task.id !== id
     }))
-    
+
   }
 
 
@@ -97,7 +111,14 @@ function App() {
         displayAdd={displayAdd}
         onClickAddBtn={() => setDisplayAdd(!displayAdd)}
       />
-      {displayAdd && <AddTask addTask={addTask}/>}
+
+    {/* Add Task  */}
+      {displayAdd && <TaskForm
+        defaultText=""
+        defaultTime=""
+        defaultReminder={false}
+        submitFunction={addTask}
+      />}
       {tasks.length > 0 ? (<Tasks tasks={tasks} editTask={editTask} deleteTask={deleteTask} />) : (<h1>No Tasks</h1>)}
 
     </>
