@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useState } from "react";
 
-const AddTask = ({ addTask }) => {
+const TaskForm = (defaultText, defaulTime, defaultReminder, submitFunction) => {
 
-    let [text, setText] = useState("");
-    let [time, setTime] = useState("");
-    let [reminder, setReminder] = useState(false)
+    
+    let [text, setText] = useState(defaultText);
+    let [time, setTime] = useState(defaulTime);
+    let [reminder, setReminder] = useState(defaultReminder)
     let [noTextWarning, setNoTextWarning] = useState("")
 
 
@@ -13,16 +14,13 @@ const AddTask = ({ addTask }) => {
         if (!text) return setNoTextWarning("Please input a task!");
 
         let newTask = { text, time, reminder }
-        addTask(newTask);
+        submitFunction(newTask);
 
         // Reset form after submit 
         setText("");
         setTime("");
         setReminder(false);
         setNoTextWarning("");
-
-
-
     }
 
     return (
@@ -67,4 +65,6 @@ const AddTask = ({ addTask }) => {
     )
 }
 
-export default AddTask
+
+
+export default TaskForm

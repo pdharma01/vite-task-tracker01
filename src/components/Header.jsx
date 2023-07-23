@@ -11,7 +11,7 @@ const Header = ({ displayAdd, onClickAddBtn}) => {
       <Button
         text={text}
         color={color}
-        onClickAddBtn={onClickAddBtn} />
+        onClick={onClickAddBtn} />
 
     </div>
   )

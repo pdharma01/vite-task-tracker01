@@ -1,18 +1,16 @@
 import Task from "./Task"
 
-const Tasks = ({ tasks }) => {
+const Tasks = ({ tasks, editTask, deleteTask }) => {
   return (
     <div>
       <h2>Tasks</h2>
-      {tasks.map((task, index)=>(
-      <Task key={index} task={task} />
+      {tasks.map((task, index) => (
+        <Task
+          key={index}
+          task={task}
+          editTask={editTask}
+          deleteTask={deleteTask} />
       ))}
-
-
-      {/* {tasks.map((task, index) => (
-        <Task key={index} task={task} />
-      ))} */}
-
     </div>
   )
 }

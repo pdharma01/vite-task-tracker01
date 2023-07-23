@@ -56,9 +56,6 @@ function App() {
   }
 
   const addTask = async (newTask) => {
-    // get last task in array + 1 
-    newTask.id = tasks[tasks.length-1].id + 1
-
     let postRequest = {
       method: "POST",
       headers: {
@@ -68,12 +65,29 @@ function App() {
     }
 
     let postedTask = await fetchTasks(url, postRequest)
+    console.log(postedTask);
  
     setTasks([...tasks, postedTask])
+
   }
 
-  const deleteTask=()=>{
+  const editTask=(id)=> {
+    console.log("edit id:" + id);
 
+  }
+
+  const tottleReminder=(id)=> {
+    console.log("toggle reminder id:" + id);
+
+  } 
+
+  const deleteTask= async (id)=>{
+    let deleteUrl = url + "/" + id;
+    await fetchTasks(deleteUrl, {method: "DELETE"})
+    setTasks(tasks.filter((task)=>{
+      return task.id !== id
+    }))
+    
   }
 
 
@@ -84,7 +98,7 @@ function App() {
         onClickAddBtn={() => setDisplayAdd(!displayAdd)}
       />
       {displayAdd && <AddTask addTask={addTask}/>}
-      {tasks.length > 0 ? (<Tasks tasks={tasks} />) : (<h1>No Tasks</h1>)}
+      {tasks.length > 0 ? (<Tasks tasks={tasks} editTask={editTask} deleteTask={deleteTask} />) : (<h1>No Tasks</h1>)}
 
     </>
   )
