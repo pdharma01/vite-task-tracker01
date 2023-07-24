@@ -4,8 +4,15 @@ import TaskForm from "./TaskForm"
 
 const Task = ({ task, editTask, deleteTask }) => {
 
+  // Display edit TaskForm 
   const [displayEditTask, setDisplayEditTask] = useState(false)
 
+  // reset function prop drilled down to TaskForm (run on TaskForm submit)
+  const reset=()=>{
+    setDisplayEditTask(false)
+  }
+
+  // Button props 
   let text = displayEditTask ? "Close" : "Edit"
   let color = displayEditTask ? "salmon" : "limegreen"
 
@@ -36,8 +43,9 @@ const Task = ({ task, editTask, deleteTask }) => {
         defaultText={task.text}
         defaultTime={task.time}
         defaultReminder={task.reminder}
-        id = {task.id}
         submitFunction={editTask}
+        id = {task.id}
+        reset={reset}
 
       />}
     </div>

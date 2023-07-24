@@ -1,10 +1,13 @@
+// TO Do 
+// react router dom - task detail pages
+// filter tasks (view reminders / all)
+
 import { useState, useEffect } from 'react'
 import './App.css'
 
 // Layout Components
 import Header from "./components/Header"
 import Tasks from "./components/Tasks"
-// import AddTask from './components/AddTask'
 import TaskForm from './components/TaskForm'
 
 let tempData = [{

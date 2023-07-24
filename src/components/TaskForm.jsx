@@ -1,8 +1,9 @@
 import { useState } from "react";
+import Button from "./Button";
 
-const TaskForm = ({defaultText, defaultTime, defaultReminder, submitFunction, id}) => {
+const TaskForm = ({ defaultText, defaultTime, defaultReminder, submitFunction, id, reset}) => {
 
-    
+
     let [text, setText] = useState(defaultText);
     let [time, setTime] = useState(defaultTime);
     let [reminder, setReminder] = useState(defaultReminder)
@@ -13,15 +14,16 @@ const TaskForm = ({defaultText, defaultTime, defaultReminder, submitFunction, id
         event.preventDefault();
         if (!text) return setNoTextWarning("Please input a task!");
 
-        let newTask = id ? { text, time, reminder, id } : { text, time, reminder}
-        console.log(newTask);
+        let newTask = id ? { text, time, reminder, id } : { text, time, reminder }
         submitFunction(newTask);
+        
 
         // Reset form after submit 
         setText("");
         setTime("");
         setReminder(false);
-        setNoTextWarning("");
+        setNoTextWarning("")
+        if (reset) reset();
     }
 
     return (
@@ -55,10 +57,13 @@ const TaskForm = ({defaultText, defaultTime, defaultReminder, submitFunction, id
                         }
                     />
                 </div>
-                <input
+
+                <Button
                     type="submit"
-                    value="Save Task"
+                    text="Save Task"
+                    color="blue"
                 />
+
                 <h3>{noTextWarning}</h3>
 
             </form>
