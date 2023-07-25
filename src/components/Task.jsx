@@ -29,7 +29,6 @@ const Task = ({ task, editTask, deleteTask }) => {
 
         <Button
           text={text}
-
           color={color}
           onClick={() => setDisplayEditTask(!displayEditTask)} />
 

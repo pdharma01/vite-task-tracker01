@@ -34,6 +34,7 @@ function App() {
 
   const [displayAdd, setDisplayAdd] = useState(false);
   const [tasks, setTasks] = useState([]);
+
   const url = "http://localhost:5000/tasks"
 
   // initial setTasks from fetched database, no dependancy array 
@@ -73,8 +74,8 @@ function App() {
 
   }
 
-  const editTask = async ({text, time, reminder, id}) => {
-    let newTask = {text, time, reminder}
+  const editTask = async ({ text, time, reminder, id }) => {
+    let newTask = { text, time, reminder }
     let putUrl = url + "/" + id;
     let putRequest = {
       method: "PUT",
@@ -93,8 +94,15 @@ function App() {
 
   }
 
-  const tottleReminder = (id) => {
-    console.log("toggle reminder id:" + id);
+  const filterReminders = async (shouldDisplay) => {
+    if (!shouldDisplay) {
+      let tasksFromServer = await fetchTasks(url);
+      setTasks(tasksFromServer)
+    } else {
+      setTasks(tasks.filter((task) => {
+        return task.reminder === true
+      }))
+    }
 
   }
 
@@ -104,7 +112,6 @@ function App() {
     setTasks(tasks.filter((task) => {
       return task.id !== id
     }))
-
   }
 
 
@@ -115,14 +122,23 @@ function App() {
         onClickAddBtn={() => setDisplayAdd(!displayAdd)}
       />
 
-    {/* Add Task  */}
-      {displayAdd && <TaskForm
+      {/* Add Task  */}
+      {displayAdd && 
+      <TaskForm
         defaultText=""
         defaultTime=""
         defaultReminder={false}
         submitFunction={addTask}
       />}
-      {tasks.length > 0 ? (<Tasks tasks={tasks} editTask={editTask} deleteTask={deleteTask} />) : (<h1>No Tasks</h1>)}
+
+      {tasks.length > 0 ? 
+      (<Tasks
+        tasks={tasks}
+        editTask={editTask}
+        deleteTask={deleteTask}
+        filterReminders={filterReminders}
+
+      />) : (<h1>No Tasks</h1>)}
 
     </>
   )
